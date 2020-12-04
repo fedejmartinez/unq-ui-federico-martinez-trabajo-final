@@ -1,0 +1,28 @@
+.playerPicture{
+    margin: 5%;
+    cursor: pointer;
+    width: 4cm;
+    height: 4cm;
+    border-radius: 150px;
+    border:2px solid #fc0303;
+}
+
+#Player1:hover{
+    content: url('./images/RockSelection.png');
+}
+
+#Player2:hover{
+    content: url('./images/PaperSelection.png');
+}
+
+#Player3:hover{
+    content: url('./images/ScissorsSelection.png');
+}
+
+#Player4:hover{
+    content: url('./images/LizardSelection.png');
+}
+
+#Player5:hover{
+    content: url('./images/SpockSelection.png');
+}

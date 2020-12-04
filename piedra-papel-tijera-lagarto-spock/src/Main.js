@@ -1,21 +1,36 @@
 import React, { useEffect, useState } from "react";
 import {Modal, ModalHeader, ModalBody} from 'reactstrap';
+import Scripts from "./Scripts";
+import './Main.css'
+import Rock from './images/Rock.png';
+import RockPlay from './images/RockPlay.png';
+import Paper from './images/Paper.png';
+import PaperPlay from './images/PaperPlay.png';
+import Scissors from './images/Scissors.png';
+import ScissorsPlay from './images/ScissorsPlay.png';
+import Lizard from './images/Lizard.png';
+import LizardPlay from './images/LizardPlay.png';
+import Spock from './images/Spock.png';
+import SpockPlay from './images/SpockPlay.png';
+
 
 const Main = () => {
 
     const [userPlayer, setUserPlayer] = useState(0);
     const [players, setPlayers] = useState([])
-    const [spock, setSpock] = useState({
-        number: 1,
-        name: "Spock"
-    })
     const [playerModalState, setPlayerModalState] = useState(false);
     const showSelectionPlayer = () => {
         setPlayerModalState(!playerModalState);
     }
 
     useEffect(() => {
-        players.push(spock)
+        players.push(
+            Scripts.getPlayer(1, "Rock", Rock, RockPlay),
+            Scripts.getPlayer(2, "Paper", Paper, PaperPlay),
+            Scripts.getPlayer(3, "Scissors", Scissors, ScissorsPlay),
+            Scripts.getPlayer(4, "Lizard", Lizard, LizardPlay),
+            Scripts.getPlayer(5, "Spock", Spock, SpockPlay)
+            )
     },[])
 
     return(
@@ -33,12 +48,9 @@ const Main = () => {
                 <ModalBody>
                     {players.map(player => {
                         return(
-                            <div id={player.number} className="player">
-                                <div>
-                                    {/*<img src={follower.image} name="folProfile" className="pfp" alt={follower.id} onClick={() => goToOtherFollower(follower.id)} />*/}
-                                    <span id= "PlayerName">{`${player.name}`}</span>
-                                </div>
-                            </div>
+                            <span>
+                                <img id={`Player${player.number}`} src={player.profilePicture} name="player" className="playerPicture" alt={player.name} />
+                            </span>
                         )
                     })}
                 </ModalBody>
