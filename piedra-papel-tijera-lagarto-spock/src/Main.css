@@ -1,13 +1,50 @@
+#PlayersModal{
+    text-align: center;
+}
+
 .playerPicture{
-    margin: 5%;
+    margin: 4%;
     cursor: pointer;
-    width: 4cm;
-    height: 4cm;
+    width: 3cm;
+    height: 3cm;
     border-radius: 150px;
     border:2px solid #fc0303;
 }
 
+.playerPlayPicture{
+    margin: 8%;
+    width: 8cm;
+    height: 8cm;
+    border-radius: 25px;
+    border:2px solid #000000;
+}
+
+#P2P1{
+    transform: scaleX(-1);
+}
+
+#P2P2{
+    transform: scaleX(-1);
+}
+
+#P2P3{
+    transform: scaleX(-1);
+}
+
+#P2P4{
+    transform: scaleX(-1);
+}
+
+#P2P5{
+    transform: scaleX(-1);
+}
+
+#Player1{
+    transform: scaleX(-1);
+}
+
 #Player1:hover{
+    transform: scaleX(1);
     content: url('./images/RockSelection.png');
 }
 
