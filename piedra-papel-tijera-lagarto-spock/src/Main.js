@@ -252,19 +252,25 @@ const Main = () => {
                     <span id="Player1Name" className="playerName">{(multiplayer && selection1.image === UnknownPlayer) ? 'Unknown' : selection1.name }</span>
                     <span id="Player2Name" className="playerName">{(multiplayer && selection2.image === UnknownPlayer) ? 'Unknown' : selection2.name}</span>
                 </div>
-                <div>
+                <div id="ImgCtx">
                     <img id={`P1P${selection1.image === UnknownPlayer ? 'U' : selection1.number}`} className="playerPlayPicture" src={selection1.image}/>
                     <span id="Vs">VS</span>
                     <img id={`P2P${selection2.image === UnknownPlayer ? 'U' : selection2.number}`} className="playerPlayPicture" src={selection2.image}/>
                 </div>
                 <div>
-                    <div id="MatchDesc">{matchDescription}</div>
-                    <span>
+                    <span id="SelectP1BtnCtx">
                         <button id="SelectCharacter1Btn" type="button" class="btn btn-primary" onClick={() => showSelectionPlayer(1)}>
                             Select player
                         </button>
                     </span>
-                    <span>
+                    <span id="MatchDesc">{matchDescription}</span>
+                    {multiplayer &&
+                    <span id="SelectP2BtnCtx">
+                        <button id="SelectCharacter2Btn" type="button" class="btn btn-primary" onClick={() => showSelectionPlayer(2)}>
+                            Select player
+                        </button>
+                    </span>}
+                    <div id="PlayBtnCtx">
                         {(!multiplayer && (selection1.image === SelectPlayer)) ||
                          (multiplayer && (selection1.image !== UnknownPlayer || selection2.image !== UnknownPlayer)) ?
                         (<button id="PlayBtn" type="button" class="btn btn-primary" disabled>
@@ -273,13 +279,7 @@ const Main = () => {
                         (<button id="PlayBtn" type="button" class="btn btn-primary" onClick={() => play()}>
                             Play
                         </button>)}
-                    </span>
-                    {multiplayer &&
-                    <span>
-                        <button id="SelectCharacter2Btn" type="button" class="btn btn-primary" onClick={() => showSelectionPlayer(2)}>
-                            Select player
-                        </button>
-                    </span>}
+                    </div>
                 </div>
                 <Modal id="PlayersModal" isOpen={playerModalState} toggle={() => showSelectionPlayer(0)}>
                     <ModalHeader>

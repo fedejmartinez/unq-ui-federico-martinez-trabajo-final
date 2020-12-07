@@ -42,10 +42,6 @@
     font-size: calc(2px + 2vmin);
 }
 
-#Main{
-    text-align: center;
-}
-
 #Vs{
     font-family: 'Times New Roman', Cambria, Cochin, Georgia, Times, serif;
     font-size: calc(50px + 2vmin);
@@ -53,10 +49,11 @@
 
 #PlayersNameCtx{
     height: 1cm;
+    margin-left: 27%;
 }
 
 #Player1Name{
-    margin-right: 34%;
+    margin-right: 47%;
 }
 
 #PlayersModal{
@@ -125,4 +122,35 @@
     text-align: center;
     text-decoration: underline;
     margin-right: 18%;
+}
+
+#MatchDesc{
+    font-style: italic;
+    font-family: 'Trebuchet MS', 'sans-serif', 'Gill Sans MT',  'Gill Sans';
+    font-weight: bold;
+    font-size: calc(7px + 2vmin);
+    text-align: center;
+    display: inline-block;
+    width: 20%;
+}
+
+#SelectP1BtnCtx{
+    width: 15%;
+    display: inline-block;
+    margin-left: 25%;
+}
+
+#SelectP2BtnCtx{
+    width: 16%;
+    display: inline-block;
+    margin-left: 9%;
+}
+
+#ImgCtx{
+    margin-left: 12%;
+}
+
+#PlayBtnCtx{
+    width: 100%;
+    text-align: center;
 }
