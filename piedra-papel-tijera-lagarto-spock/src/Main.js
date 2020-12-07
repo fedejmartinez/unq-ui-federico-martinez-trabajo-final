@@ -50,6 +50,7 @@ const Main = () => {
     const [select, setSelect] = useState(0);
     const [playerModalState, setPlayerModalState] = useState(false);
     const [multiplayer, setMultiplayer] = useState(false);
+    const [matchDescription, setMatchDescription] = useState("");
 
     //Funciones.
     const selectMultiplayer = () => {
@@ -77,6 +78,7 @@ const Main = () => {
                 image: SelectPlayer,
             });
         }
+        setMatchDescription("");
         setMultiplayer(!multiplayer)
     }
 
@@ -214,6 +216,7 @@ const Main = () => {
                         break;
                 }
             }
+            setMatchDescription(Scripts.getMatchDescription(selection1.number, selection2.number))
         }
     }
 
@@ -227,34 +230,35 @@ const Main = () => {
             <header>
                 <Navbar />
             </header>
-            <button id="MultiplayerBtn" type="button" class="btn btn-primary" onClick={() => selectMultiplayer()}>
-                {multiplayer ? 'Vs CPU' : 'Multiplayer'}
-            </button>
             {multiplayer ?
-            (<span>
-                <span>{`Matchs: ${counters.multiplayerMatchs}`}</span>
-                <span>{`Player 1: ${counters.player1Multiplayer}`}</span>
-                <span>{`Draws: ${counters.multiplayerDraws}`}</span>
-                <span>{`Player 2: ${counters.player2}`}</span>
+            (<span className="conuterCont">
+                <span className="conuterTxt">{`Matchs: ${counters.multiplayerMatchs}`}</span>
+                <span className="conuterTxt">{`Player one: ${counters.player1Multiplayer}`}</span>
+                <span className="conuterTxt">{`Draws: ${counters.multiplayerDraws}`}</span>
+                <span className="conuterTxt">{`Player two: ${counters.player2}`}</span>
             </span>) :
-            (<span>
-                <span>{`Matchs: ${counters.matchsVsCpu}`}</span>
-                <span>{`Player 1: ${counters.player1VsCpu}`}</span>
-                <span>{`Draws: ${counters.drawsVsCpu}`}</span>
-                <span>{`CPU: ${counters.cpu}`}</span>
-            </span>)
-            }
+            (<span className="conuterCont">
+                <span className="conuterTxt">{`Matchs: ${counters.matchsVsCpu}`}</span>
+                <span className="conuterTxt">{`Player one: ${counters.player1VsCpu}`}</span>
+                <span className="conuterTxt">{`Draws: ${counters.drawsVsCpu}`}</span>
+                <span className="conuterTxt">{`CPU: ${counters.cpu}`}</span>
+            </span>)}
+            <span id="TitleMode">{multiplayer ? 'Multiplayer mode' : 'CPU mode'}</span>
+            <button id="MultiplayerBtn" type="button" class="btn btn-primary" onClick={() => selectMultiplayer()}>
+                {multiplayer ? 'Play vs CPU' : 'Multiplayer'}
+            </button>
             <div id="Main">
                 <div id="PlayersNameCtx">
                     <span id="Player1Name" className="playerName">{(multiplayer && selection1.image === UnknownPlayer) ? 'Unknown' : selection1.name }</span>
-                    <span id="Player2Name" className="playerName">{(multiplayer && selection1.image === UnknownPlayer) ? 'Unknown' : selection2.name}</span>
+                    <span id="Player2Name" className="playerName">{(multiplayer && selection2.image === UnknownPlayer) ? 'Unknown' : selection2.name}</span>
                 </div>
                 <div>
-                    <img id={`P1P${selection1.number}`} className="playerPlayPicture" src={selection1.image}/>
+                    <img id={`P1P${selection1.image === UnknownPlayer ? 'U' : selection1.number}`} className="playerPlayPicture" src={selection1.image}/>
                     <span id="Vs">VS</span>
-                    <img id={`P2P${selection2.number}`} className="playerPlayPicture" src={selection2.image}/>
+                    <img id={`P2P${selection2.image === UnknownPlayer ? 'U' : selection2.number}`} className="playerPlayPicture" src={selection2.image}/>
                 </div>
                 <div>
+                    <div id="MatchDesc">{matchDescription}</div>
                     <span>
                         <button id="SelectCharacter1Btn" type="button" class="btn btn-primary" onClick={() => showSelectionPlayer(1)}>
                             Select player
@@ -270,13 +274,12 @@ const Main = () => {
                             Play
                         </button>)}
                     </span>
-                    { multiplayer &&
+                    {multiplayer &&
                     <span>
                         <button id="SelectCharacter2Btn" type="button" class="btn btn-primary" onClick={() => showSelectionPlayer(2)}>
                             Select player
                         </button>
-                    </span>
-                    }
+                    </span>}
                 </div>
                 <Modal id="PlayersModal" isOpen={playerModalState} toggle={() => showSelectionPlayer(0)}>
                     <ModalHeader>

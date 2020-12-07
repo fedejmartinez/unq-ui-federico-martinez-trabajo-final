@@ -28,6 +28,20 @@
     font-size: calc(20px + 2vmin);
 }
 
+.conuterCont{
+    width: 30%;
+    display: inline-block;
+}
+
+.conuterTxt{
+    margin-left: 2%;
+    margin-right: 2%;
+    font-style: italic;
+    font-family: 'Trebuchet MS', 'sans-serif', 'Gill Sans MT',  'Gill Sans';
+    font-weight: bold;
+    font-size: calc(2px + 2vmin);
+}
+
 #Main{
     text-align: center;
 }
@@ -101,4 +115,14 @@
 #MultiplayerBtn{
     margin: 1%;
     width: 3cm;
+}
+
+#TitleMode{
+    width: 40%;
+    display: inline-block;
+    font-family: Cochin, 'Times New Roman', Cambria, Georgia, Times;
+    font-size: calc(30px + 2vmin);
+    text-align: center;
+    text-decoration: underline;
+    margin-right: 18%;
 }
