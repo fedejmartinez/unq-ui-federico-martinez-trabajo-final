@@ -53,6 +53,30 @@ const Main = () => {
 
     //Funciones.
     const selectMultiplayer = () => {
+        if(multiplayer){
+            setSelection1({
+                number: 0,
+                name: "",
+                image: SelectPlayer,
+            });
+            setSelection2({
+                number: 0,
+                name: "",
+                image: UnknownPlayer,
+            });
+        }
+        else{
+            setSelection1({
+                number: 0,
+                name: "",
+                image: SelectPlayer,
+            });
+            setSelection2({
+                number: 0,
+                name: "",
+                image: SelectPlayer,
+            });
+        }
         setMultiplayer(!multiplayer)
     }
 
@@ -62,25 +86,43 @@ const Main = () => {
     }
 
     const selectionPlayer = (playerNumber) => {
-        selection(playerNumber);
-        showSelectionPlayer()
+        selection(select, playerNumber, multiplayer);
+        showSelectionPlayer(0)
     }
 
-    const selection = (playerNumber) => {
+    const selection = (p, playerNumber, unknown) => {
         const player = players.find(p => p.number === playerNumber);
-        if(select === 1){
-            setSelection1({
-                number: player.number,
-                name: player.name,
-                image: player.playPicture
-            });
+        if(unknown){
+            if(p === 1){
+                setSelection1({
+                    number: player.number,
+                    name: player.name,
+                    image: UnknownPlayer
+                });
+            }
+            else {
+                setSelection2({
+                    number: player.number,
+                    name: player.name,
+                    image: UnknownPlayer
+                });
+            }
         }
-        else {
-            setSelection2({
-                number: player.number,
-                name: player.name,
-                image: player.playPicture
-            });
+        else{
+            if(p === 1){
+                setSelection1({
+                    number: player.number,
+                    name: player.name,
+                    image: player.playPicture
+                });
+            }
+            else {
+                setSelection2({
+                    number: player.number,
+                    name: player.name,
+                    image: player.playPicture
+                });
+            }
         }
     }
 
@@ -90,11 +132,20 @@ const Main = () => {
 
     const play = () =>{
         if(multiplayer){
-
+            multiplayerMatch()
         }
         else{
             playVsCpu();
         }
+    }
+
+    const multiplayerMatch = () =>{
+        selection(1, selection1.number, false);
+        selection(2, selection2.number, false);
+        setCounter({
+            ...counters,
+            multiplayerMatchs: counters.multiplayerMatchs + 1
+        })
     }
 
     const playVsCpu = () => {
@@ -114,7 +165,7 @@ const Main = () => {
     }
 
     const changePlayer = () => {
-        selection(getRandom(1, 5));
+        selection(2, getRandom(1, 5), false);
     }
 
     const finishMatch = () => {
@@ -195,8 +246,8 @@ const Main = () => {
             }
             <div id="Main">
                 <div id="PlayersNameCtx">
-                    <span id="Player1Name" className="playerName">{selection1.name}</span>
-                    <span id="Player2Name" className="playerName">{selection2.name}</span>
+                    <span id="Player1Name" className="playerName">{(multiplayer && selection1.image === UnknownPlayer) ? 'Unknown' : selection1.name }</span>
+                    <span id="Player2Name" className="playerName">{(multiplayer && selection1.image === UnknownPlayer) ? 'Unknown' : selection2.name}</span>
                 </div>
                 <div>
                     <img id={`P1P${selection1.number}`} className="playerPlayPicture" src={selection1.image}/>
@@ -210,7 +261,8 @@ const Main = () => {
                         </button>
                     </span>
                     <span>
-                        {(selection1.image === SelectPlayer || selection2.image === SelectPlayer) ?
+                        {(!multiplayer && (selection1.image === SelectPlayer)) ||
+                         (multiplayer && (selection1.image !== UnknownPlayer || selection2.image !== UnknownPlayer)) ?
                         (<button id="PlayBtn" type="button" class="btn btn-primary" disabled>
                             Play
                         </button>) :
