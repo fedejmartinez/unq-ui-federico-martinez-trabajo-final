@@ -1,7 +1,3 @@
-#PlayersModal{
-    text-align: center;
-}
-
 .playerPicture{
     margin: 4%;
     cursor: pointer;
@@ -12,11 +8,45 @@
 }
 
 .playerPlayPicture{
-    margin: 8%;
+    margin-top: 2%;
+    margin-left: 8%;
+    margin-right: 8%;
+    margin-bottom: 2%;
     width: 8cm;
     height: 8cm;
     border-radius: 25px;
     border:2px solid #000000;
+}
+
+.playerName{
+    font-family: 'Trebuchet MS', 'sans-serif', 'Gill Sans MT',  'Gill Sans';
+    font-style: italic;
+    width: 10%;
+    height: 10%;
+    display: inline-block;
+    text-align: center;
+    font-size: calc(20px + 2vmin);
+}
+
+#Main{
+    text-align: center;
+}
+
+#Vs{
+    font-family: 'Times New Roman', Cambria, Cochin, Georgia, Times, serif;
+    font-size: calc(50px + 2vmin);
+}
+
+#PlayersNameCtx{
+    height: 1cm;
+}
+
+#Player1Name{
+    margin-right: 34%;
+}
+
+#PlayersModal{
+    text-align: center;
 }
 
 #P2P1{
@@ -62,4 +92,13 @@
 
 #Player5:hover{
     content: url('./images/SpockSelection.png');
+}
+
+#ClosePlayersButton{
+    margin-left: 7cm;
+}
+
+#MultiplayerBtn{
+    margin: 1%;
+    width: 3cm;
 }

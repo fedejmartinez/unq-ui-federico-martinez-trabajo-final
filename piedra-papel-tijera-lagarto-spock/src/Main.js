@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import {Modal, ModalHeader, ModalBody} from 'reactstrap';
 import Scripts from "./Scripts";
+import Navbar from "./Navbar";
 import './Main.css'
 import SelectPlayer from './images/SelectPlayer.png';
 import UnknownPlayer from './images/UnknownPlayer.jpg';
@@ -18,6 +19,7 @@ import SpockPlay from './images/SpockPlay.png';
 
 const Main = () => {
 
+    //Estado.
     const players = [
         Scripts.getPlayer(1, "Rock", Rock, RockPlay),
         Scripts.getPlayer(2, "Paper", Paper, PaperPlay),
@@ -35,19 +37,38 @@ const Main = () => {
         name: "",
         image: UnknownPlayer,
     })
+    const [counters, setCounter] = useState({
+        matchsVsCpu: 0,
+        drawsVsCpu: 0,
+        player1VsCpu: 0,
+        cpu: 0,
+        multiplayerMatchs: 0,
+        multiplayerDraws: 0, 
+        player1Multiplayer: 0,
+        player2: 0,
+    })
+    const [select, setSelect] = useState(0);
     const [playerModalState, setPlayerModalState] = useState(false);
-    const showSelectionPlayer = () => {
+    const [multiplayer, setMultiplayer] = useState(false);
+
+    //Funciones.
+    const selectMultiplayer = () => {
+        setMultiplayer(!multiplayer)
+    }
+
+    const showSelectionPlayer = (player) => {
+        setSelect(player);
         setPlayerModalState(!playerModalState);
     }
 
-    const selectionPlayer = (p, playerNumber) => {
-        selection(p, playerNumber);
+    const selectionPlayer = (playerNumber) => {
+        selection(playerNumber);
         showSelectionPlayer()
     }
 
-    const selection = (p, playerNumber) => {
+    const selection = (playerNumber) => {
         const player = players.find(p => p.number === playerNumber);
-        if(p === 1){
+        if(select === 1){
             setSelection1({
                 number: player.number,
                 name: player.name,
@@ -67,6 +88,15 @@ const Main = () => {
         return Math.floor((Math.random() * (max - min + 1)) + min);
     }
 
+    const play = () =>{
+        if(multiplayer){
+
+        }
+        else{
+            playVsCpu();
+        }
+    }
+
     const playVsCpu = () => {
         //Se cambia el personaje en forma random cada 100 ms.
         let intervalID = setInterval(changePlayer, 100)
@@ -76,53 +106,149 @@ const Main = () => {
     }
 
     const finishCPUSelection = (intervalID) =>{
-        clearInterval(intervalID)
+        clearInterval(intervalID);
+        setCounter({
+            ...counters,
+            matchsVsCpu: counters.matchsVsCpu + 1
+        })
     }
 
-    const changePlayer = (countDown) => {
-        selection(2, getRandom(1, 5));
+    const changePlayer = () => {
+        selection(getRandom(1, 5));
+    }
+
+    const finishMatch = () => {
+        if(selection1.number !== 0 && selection2.number !== 0){
+            if(multiplayer){
+                switch(Scripts.getWinner(selection1.number, selection2.number)){
+                    case 0:
+                        setCounter({
+                            ...counters,
+                            multiplayerDraws: counters.multiplayerDraws + 1
+                        })
+                        break;
+                    case 1:
+                        setCounter({
+                            ...counters,
+                            player1Multiplayer: counters.player1Multiplayer + 1
+                        })
+                        break;
+                    case 2:
+                        setCounter({
+                            ...counters,
+                            player2: counters.player2 + 1
+                        })
+                        break;
+                }
+            }
+            else{
+                switch(Scripts.getWinner(selection1.number, selection2.number)){
+                    case 0:
+                        setCounter({
+                            ...counters,
+                            drawsVsCpu: counters.drawsVsCpu + 1
+                        })
+                        break;
+                    case 1:
+                        setCounter({
+                            ...counters,
+                            player1VsCpu: counters.player1VsCpu + 1
+                        })
+                        break;
+                    case 2:
+                        setCounter({
+                            ...counters,
+                            cpu: counters.cpu + 1
+                        })
+                        break;
+                }
+            }
+        }
     }
 
     useEffect(() => {
-    }, [])
+        finishMatch();
+    }, [counters.matchsVsCpu, counters.multiplayerMatchs])
 
+    //Render.
     return(
         <>
-            <button id="SelectPlayerBtn" type="button" class="btn btn-primary" onClick={() => showSelectionPlayer()}>
-                Select player
+            <header>
+                <Navbar />
+            </header>
+            <button id="MultiplayerBtn" type="button" class="btn btn-primary" onClick={() => selectMultiplayer()}>
+                {multiplayer ? 'Vs CPU' : 'Multiplayer'}
             </button>
-            <img id={`P1P${selection1.number}`} className="playerPlayPicture" src={selection1.image}/>
-            <img id={`P2P${selection2.number}`} className="playerPlayPicture" src={selection2.image}/>
-            {(selection1.image === SelectPlayer || selection2.image === SelectPlayer) && 
-            (<button id="PlayBtn" type="button" class="btn btn-primary" disabled>
-                Play
-            </button>)}
-            {!(selection1.image === SelectPlayer || selection2.image === SelectPlayer) && 
-            (<button id="PlayBtn" type="button" class="btn btn-primary" onClick={() => playVsCpu()}>
-                Play
-            </button>)}
-            <Modal id="PlayersModal" isOpen={playerModalState} toggle={() => showSelectionPlayer()}>
-                <ModalHeader>
-                        Select your player
-                        <span>
-                            <button id="ClosePlayersButton" type="button" class="close" aria-hidden="true" onClick={() => showSelectionPlayer()}>x</button>
-                        </span>
-                </ModalHeader>
-                <ModalBody>
-                    {players.map(player => {
-                        return(
+            {multiplayer ?
+            (<span>
+                <span>{`Matchs: ${counters.multiplayerMatchs}`}</span>
+                <span>{`Player 1: ${counters.player1Multiplayer}`}</span>
+                <span>{`Draws: ${counters.multiplayerDraws}`}</span>
+                <span>{`Player 2: ${counters.player2}`}</span>
+            </span>) :
+            (<span>
+                <span>{`Matchs: ${counters.matchsVsCpu}`}</span>
+                <span>{`Player 1: ${counters.player1VsCpu}`}</span>
+                <span>{`Draws: ${counters.drawsVsCpu}`}</span>
+                <span>{`CPU: ${counters.cpu}`}</span>
+            </span>)
+            }
+            <div id="Main">
+                <div id="PlayersNameCtx">
+                    <span id="Player1Name" className="playerName">{selection1.name}</span>
+                    <span id="Player2Name" className="playerName">{selection2.name}</span>
+                </div>
+                <div>
+                    <img id={`P1P${selection1.number}`} className="playerPlayPicture" src={selection1.image}/>
+                    <span id="Vs">VS</span>
+                    <img id={`P2P${selection2.number}`} className="playerPlayPicture" src={selection2.image}/>
+                </div>
+                <div>
+                    <span>
+                        <button id="SelectCharacter1Btn" type="button" class="btn btn-primary" onClick={() => showSelectionPlayer(1)}>
+                            Select player
+                        </button>
+                    </span>
+                    <span>
+                        {(selection1.image === SelectPlayer || selection2.image === SelectPlayer) ?
+                        (<button id="PlayBtn" type="button" class="btn btn-primary" disabled>
+                            Play
+                        </button>) :
+                        (<button id="PlayBtn" type="button" class="btn btn-primary" onClick={() => play()}>
+                            Play
+                        </button>)}
+                    </span>
+                    { multiplayer &&
+                    <span>
+                        <button id="SelectCharacter2Btn" type="button" class="btn btn-primary" onClick={() => showSelectionPlayer(2)}>
+                            Select player
+                        </button>
+                    </span>
+                    }
+                </div>
+                <Modal id="PlayersModal" isOpen={playerModalState} toggle={() => showSelectionPlayer(0)}>
+                    <ModalHeader>
+                            Select your player
                             <span>
-                                <img id={`Player${player.number}`} 
-                                     src={player.profilePicture} 
-                                     name="player" 
-                                     className="playerPicture" 
-                                     alt={player.name}
-                                     onClick={() => selectionPlayer(1, player.number)} />
+                                <button id="ClosePlayersButton" type="button" class="close" aria-hidden="true" onClick={() => showSelectionPlayer(0)}>x</button>
                             </span>
-                        )
-                    })}
-                </ModalBody>
-            </Modal>
+                    </ModalHeader>
+                    <ModalBody>
+                        {players.map(player => {
+                            return(
+                                <span>
+                                    <img id={`Player${player.number}`} 
+                                        src={player.profilePicture} 
+                                        name="player" 
+                                        className="playerPicture" 
+                                        alt={player.name}
+                                        onClick={() => selectionPlayer(player.number)} />
+                                </span>
+                            )
+                        })}
+                    </ModalBody>
+                </Modal>
+            </div>
         </>
     )
 
