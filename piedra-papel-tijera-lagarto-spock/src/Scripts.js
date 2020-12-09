@@ -65,7 +65,7 @@ const getWinner = (player1character, player2character) =>{
 }
 
 const getMatchDescription = (player1character, player2character) => {
-    let description = "Draw";
+    let description = "Tie";
     if((player1character === 3 || player2character === 3) &&
        (player1character === 2 || player2character === 2)){
         description = "Scissors cuts Paper";

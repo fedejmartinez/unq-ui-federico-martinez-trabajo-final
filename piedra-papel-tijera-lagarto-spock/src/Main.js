@@ -39,11 +39,11 @@ const Main = () => {
     })
     const [counters, setCounter] = useState({
         matchsVsCpu: 0,
-        drawsVsCpu: 0,
+        tiesVsCpu: 0,
         player1VsCpu: 0,
         cpu: 0,
         multiplayerMatchs: 0,
-        multiplayerDraws: 0, 
+        multiplayerTies: 0, 
         player1Multiplayer: 0,
         player2: 0,
     })
@@ -177,7 +177,7 @@ const Main = () => {
                     case 0:
                         setCounter({
                             ...counters,
-                            multiplayerDraws: counters.multiplayerDraws + 1
+                            multiplayerTies: counters.multiplayerTies + 1
                         })
                         break;
                     case 1:
@@ -199,7 +199,7 @@ const Main = () => {
                     case 0:
                         setCounter({
                             ...counters,
-                            drawsVsCpu: counters.drawsVsCpu + 1
+                            tiesVsCpu: counters.tiesVsCpu + 1
                         })
                         break;
                     case 1:
@@ -234,13 +234,13 @@ const Main = () => {
             (<span className="conuterCont">
                 <span className="conuterTxt">{`Matchs: ${counters.multiplayerMatchs}`}</span>
                 <span className="conuterTxt">{`Player one: ${counters.player1Multiplayer}`}</span>
-                <span className="conuterTxt">{`Draws: ${counters.multiplayerDraws}`}</span>
+                <span className="conuterTxt">{`Ties: ${counters.multiplayerTies}`}</span>
                 <span className="conuterTxt">{`Player two: ${counters.player2}`}</span>
             </span>) :
             (<span className="conuterCont">
                 <span className="conuterTxt">{`Matchs: ${counters.matchsVsCpu}`}</span>
                 <span className="conuterTxt">{`Player one: ${counters.player1VsCpu}`}</span>
-                <span className="conuterTxt">{`Draws: ${counters.drawsVsCpu}`}</span>
+                <span className="conuterTxt">{`Ties: ${counters.tiesVsCpu}`}</span>
                 <span className="conuterTxt">{`CPU: ${counters.cpu}`}</span>
             </span>)}
             <span id="TitleMode">{multiplayer ? 'Multiplayer mode' : 'CPU mode'}</span>
